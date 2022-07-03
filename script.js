@@ -52,7 +52,7 @@ function handleAsOperator(value){
             runningTotal = 0;
             buffer = '0';
             lastOperator = null;
-            // console.clear()
+            console.clear()
             break;
 
         // 
@@ -60,12 +60,29 @@ function handleAsOperator(value){
             if (buffer.length === 1) {
                 buffer = '0'
             }
-            else {
+            else if (buffer.length > 1) {
                 buffer = buffer.substring(0, buffer.length - 1)
+            }
+
+            else {
+                runningTotal = 0;
+                buffer = '0';
+                lastOperator = null;
             }
             break;
 
         case '=':
+            if (lastOperator === null) {
+                // need two numbers to do math
+                return;
+            }
+
+            else {
+                mathOperation(parseInt(buffer));
+                lastOperator = null;
+                buffer =  + runningTotal;
+                runningTotal = 0;
+            }
             break;
         
         // case '.':
@@ -76,6 +93,15 @@ function handleAsOperator(value){
         //     break;
         
         case '%':
+            if (buffer === 0){
+                buffer = '0'
+            }
+            else {
+                buffer = value/100;
+                console.log('here', typeof(buffer))
+            }
+            break;
+
         case '+':
         case '-':
         case '𝗑':
@@ -86,7 +112,7 @@ function handleAsOperator(value){
 };
 
 
-// perform math operations
+// perform math operations with buffer(type: number)
 
 function handleMath(value) {
     if (buffer === '0') {
@@ -107,24 +133,24 @@ function handleMath(value) {
         lastOperator = value;
         buffer = 0;
     }
-
+    return
 };
 
+
+// math operations
+
 function mathOperation(intBuffer) {
-    if (lastOperator == '+') {
+    if (lastOperator === '+') {
         runningTotal += intBuffer;
     }
-    else if (lastOperator == '-') {
+    else if (lastOperator === '-') {
         runningTotal -= intBuffer;
     }
-    else if (lastOperator == '𝗑') {
+    else if (lastOperator === '𝗑') {
         runningTotal *= intBuffer;
     }
-    else if (lastOperator == '÷') {
-        runningTotal /= intBuffer;
-    }
     else {
-        runningTotal = intBuffer/100;
+        runningTotal /= intBuffer;
     }
 }
 
