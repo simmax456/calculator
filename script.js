@@ -52,6 +52,7 @@ function handleAsOperator(value){
             runningTotal = 0;
             buffer = '0';
             lastOperator = null;
+            // console.clear()
             break;
 
         // 
@@ -69,8 +70,9 @@ function handleAsOperator(value){
         
         // case '.':
         //     if (buffer === 0) {
-        //         buffer = parseFloat(0.)
+        //         buffer = 
         //     }
+        //     else {}
         //     break;
         
         case '%':
@@ -82,6 +84,49 @@ function handleAsOperator(value){
             break;
     };
 };
+
+
+// perform math operations
+
+function handleMath(value) {
+    if (buffer === '0') {
+        // no operation to perform
+        return
+    }
+    else {
+        //convert buffer type to number
+        const intBuffer = parseFloat(buffer);
+    
+        if (runningTotal === 0) {
+            runningTotal = intBuffer
+        }
+        else {
+            mathOperation(intBuffer)
+        }
+
+        lastOperator = value;
+        buffer = 0;
+    }
+
+};
+
+function mathOperation(intBuffer) {
+    if (lastOperator == '+') {
+        runningTotal += intBuffer;
+    }
+    else if (lastOperator == '-') {
+        runningTotal -= intBuffer;
+    }
+    else if (lastOperator == '𝗑') {
+        runningTotal *= intBuffer;
+    }
+    else if (lastOperator == '÷') {
+        runningTotal /= intBuffer;
+    }
+    else {
+        runningTotal = intBuffer/100;
+    }
+}
 
 
 // Show the output in our screen
