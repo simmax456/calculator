@@ -78,29 +78,28 @@ function handleAsOperator(value){
             }
 
             else {
-                mathOperation(parseInt(buffer));
+                mathOperation(parseFloat(buffer));
                 lastOperator = null;
                 buffer =  + runningTotal;
                 runningTotal = 0;
             }
             break;
         
-        // case '.':
-        //     if (buffer === 0) {
-        //         buffer = 
-        //     }
-        //     else {}
-        //     break;
+        case '.':
+            buffer = buffer + '.'
+            break;
+
         
         case '%':
-            if (buffer === 0){
-                buffer = '0'
-            }
-            else {
-                buffer = value/100;
-                console.log('here', typeof(buffer))
-            }
-            break;
+            // if (buffer === '0'){
+            //     return // do nothing
+            // }
+            // else {
+            //     // buffer = ( isNaN(parseFloat(value)) / 100 )
+            //     console.log('here', isNaN(intBuffer))
+            // }
+            // // console.log('here', typeof(buffer))
+            // break;
 
         case '+':
         case '-':
@@ -148,6 +147,10 @@ function mathOperation(intBuffer) {
     }
     else if (lastOperator === '𝗑') {
         runningTotal *= intBuffer;
+    }
+    else if (lastOperator === '%') {
+        runningTotal = intBuffer / 100;
+        console.log('here', runningTotal)
     }
     else {
         runningTotal /= intBuffer;
