@@ -45,7 +45,7 @@ function handleAsNumber(value){
 };
 
 
-function handleAsOperator(value){
+function handleAsOperator(value) {
     switch (value) {
         // reset screen value on click
         case 'AC':
@@ -63,7 +63,6 @@ function handleAsOperator(value){
             else if (buffer.length > 1) {
                 buffer = buffer.substring(0, buffer.length - 1)
             }
-
             else {
                 runningTotal = 0;
                 buffer = '0';
@@ -71,35 +70,38 @@ function handleAsOperator(value){
             }
             break;
 
+        case '%':
+            if (runningTotal = 0) {
+                // do nothing
+                return
+            }
+
+            runningTotal = buffer / 100
+            buffer = runningTotal
+
+            // bug: the buffer doesn't reset when a new
+            // number is clicked; it's concatenated to the result.
+
+            // fix: make the buffer reset when a new button is clicked.
+            break
+
         case '=':
             if (lastOperator === null) {
                 // need two numbers to do math
+                // don't do anything
                 return;
             }
-
             else {
                 mathOperation(parseFloat(buffer));
                 lastOperator = null;
                 buffer =  + runningTotal;
-                runningTotal = 0;
+                // runningTotal = 0;
             }
             break;
         
         case '.':
             buffer = buffer + '.'
             break;
-
-        
-        case '%':
-            // if (buffer === '0'){
-            //     return // do nothing
-            // }
-            // else {
-            //     // buffer = ( isNaN(parseFloat(value)) / 100 )
-            //     console.log('here', isNaN(intBuffer))
-            // }
-            // // console.log('here', typeof(buffer))
-            // break;
 
         case '+':
         case '-':
@@ -132,30 +134,26 @@ function handleMath(value) {
         lastOperator = value;
         buffer = 0;
     }
-    return
+    // return
 };
 
 
 // math operations
 
 function mathOperation(intBuffer) {
-    if (lastOperator === '+') {
+    if (lastOperator == '+') {
         runningTotal += intBuffer;
     }
-    else if (lastOperator === '-') {
+    else if (lastOperator == '-') {
         runningTotal -= intBuffer;
     }
-    else if (lastOperator === '𝗑') {
+    else if (lastOperator == '𝗑') {
         runningTotal *= intBuffer;
-    }
-    else if (lastOperator === '%') {
-        runningTotal = intBuffer / 100;
-        console.log('here', runningTotal)
     }
     else {
         runningTotal /= intBuffer;
     }
-}
+};
 
 
 // Show the output in our screen
@@ -163,3 +161,6 @@ function mathOperation(intBuffer) {
 function renderOutput(){
     screen.innerText = buffer
 };
+
+
+// bug: Set limit to display length
